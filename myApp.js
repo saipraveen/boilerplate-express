@@ -19,7 +19,25 @@ app.get("/json", (req, res) => {
   res.json({"message" : message});
 });
 
+app.get("/now", (req, res, next) => {
+  req.time = new Date().toString();
+  next();
+}, (req, res) => {
+  res.json({"time": req.time})
+});
 
+app.get("/:word/echo", (req, res) => {
+  const { word } = req.params;
+  // console.log("--", word, req.params);
+  console.log("--", req.params);
+  res.json({"echo": word});
+});
 
+app.route("/name").get((req, res) => {
+  const { first, last } = req.query;
+  res.json({"name": `${first} ${last}`});
+}).post((req, res) => {
+  // console.log("-- POST ", req);
+});
 
 module.exports = app;
